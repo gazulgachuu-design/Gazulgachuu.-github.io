@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Gazul Gafoor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050508;--card:#0C0C10;--border:rgba(201,168,76,0.12);
+  --gold:#C9A84C;--gold2:#E8D48A;--gold3:rgba(201,168,76,0.06);
+  --text:#F5F0E8;--muted:#6B6557;--muted2:#9A8F7A;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100svh;display:flex;justify-content:center;overflow-x:hidden}
+.bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% -10%,rgba(201,168,76,0.07) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 90%,rgba(100,80,30,0.05) 0%,transparent 60%)}
+.noise{position:absolute;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;width:100%;max-width:480px;padding:70px 22px 80px;display:flex;flex-direction:column;align-items:center}
+.orn{display:flex;align-items:center;gap:10px;margin-bottom:42px;animation:fadeUp .8s ease both;width:100%;max-width:200px}
+.orn-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);opacity:.7}
+.mono-wrap{margin-bottom:28px;animation:fadeUp .8s .08s ease both}
+.mono{width:88px;height:88px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle,rgba(201,168,76,0.08),transparent 70%)}
+.mono::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(201,168,76,0.1)}
+.mono::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(201,168,76,0.05)}
+.mono-text{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;letter-spacing:3px;color:var(--gold2)}
+.live{position:absolute;bottom:4px;right:4px;width:11px;height:11px;border-radius:50%;background:#4CAF50;border:2px solid var(--bg)}
+.name{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,42px);font-weight:300;letter-spacing:4px;text-align:center;color:var(--gold2);line-height:1.15;animation:fadeUp .8s .14s ease both}
+.name-under{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px auto 10px;animation:fadeUp .8s .18s ease both}
+.title{font-size:9px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--muted2);text-align:center;margin-bottom:36px;animation:fadeUp .8s .22s ease both}
+.stats{width:100%;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);overflow:hidden;margin-bottom:40px;animation:fadeUp .8s .26s ease both}
+.stat{padding:18px 6px;text-align:center;position:relative}
+.stat:not(:last-child)::after{content:'';position:absolute;right:0;top:22%;height:56%;width:1px;background:var(--border)}
+.sn{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--gold);letter-spacing:1px}
+.sl{font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-top:5px;line-height:1.4}
+.stitle{font-size:8px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;width:100%;margin-bottom:16px;margin-top:8px}
+.stitle::before,.stitle::after{content:'';flex:1;height:1px;background:var(--border)}
+.exp{width:100%;border:1px solid var(--border);padding:22px 20px;margin-bottom:14px;animation:fadeUp .8s .3s ease both}
+.exp-tags{display:flex;flex-wrap:wrap;gap:7px}
+.etag{font-size:9.5px;font-weight:500;letter-spacing:.5px;padding:6px 14px;border:1px solid rgba(201,168,76,0.15);color:var(--muted2);transition:all .2s;cursor:default}
+.etag:hover,.etag.active{border-color:rgba(201,168,76,0.4);color:var(--gold);background:var(--gold3)}
+.svcs{width:100%;display:flex;flex-direction:column;gap:1px;margin-bottom:2px}
+.svc{border:1px solid var(--border);padding:20px 20px;display:flex;gap:16px;align-items:flex-start;background:var(--card);transition:border-color .25s,background .25s;cursor:default;animation:fadeUp .8s ease both}
+.svc:hover{border-color:rgba(201,168,76,0.28);background:rgba(201,168,76,0.03)}
+.svc:nth-child(1){animation-delay:.34s}.svc:nth-child(2){animation-delay:.40s}.svc:nth-child(3){animation-delay:.46s}.svc:nth-child(4){animation-delay:.52s}.svc:nth-child(5){animation-delay:.58s}.svc:nth-child(6){animation-delay:.64s}.svc:nth-child(7){animation-delay:.70s}
+.snum{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(201,168,76,0.25);line-height:1;flex-shrink:0;padding-top:2px;min-width:24px}
+.sh{font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--text);margin-bottom:5px;line-height:1.4}
+.sd{font-size:10.5px;color:var(--muted2);line-height:1.7;font-weight:300}
+.sd strong{color:rgba(240,230,200,.55);font-weight:500}
+.smark{display:inline-block;margin-top:8px;font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(201,168,76,.3);padding-bottom:1px}
+.vents{width:100%;display:flex;flex-direction:column;gap:1px}
+.vent{border:1px solid var(--border);padding:18px 20px;display:flex;align-items:center;gap:14px;background:var(--card);transition:border-color .22s;cursor:default;animation:fadeUp .8s ease both}
+.vent:nth-child(1){animation-delay:.38s}.vent:nth-child(2){animation-delay:.44s}.vent:nth-child(3){animation-delay:.50s}.vent:nth-child(4){animation-delay:.56s}.vent:nth-child(5){animation-delay:.62s}
+.vent:hover{border-color:rgba(201,168,76,.22)}
+.vn{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:rgba(201,168,76,.4);flex-shrink:0;min-width:18px}
+.vtext{flex:1}
+.vname{font-size:12px;font-weight:600;letter-spacing:.3px;color:var(--text);margin-bottom:3px}
+.vdesc{font-size:10px;color:var(--muted);line-height:1.6;font-weight:300}
+.vtag{font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.2);padding:4px 10px;flex-shrink:0}
+.links{width:100%;display:flex;flex-direction:column;gap:1px}
+.lcard{display:flex;align-items:center;gap:14px;padding:17px 20px;background:var(--card);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:border-color .22s,background .22s;animation:fadeUp .8s ease both;cursor:pointer}
+.lcard:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.03)}
+.lcard:nth-child(1){animation-delay:.52s}.lcard:nth-child(2){animation-delay:.58s}.lcard:nth-child(3){animation-delay:.64s}.lcard:nth-child(4){animation-delay:.70s}
+.lico{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--border)}
+.ltxt{flex:1}
+.lt{font-size:12px;font-weight:600;letter-spacing:.3px}
+.ls{font-size:10px;color:var(--muted2);margin-top:2px;font-weight:300}
+.larr{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);opacity:.35;transition:transform .2s,opacity .2s}
+.lcard:hover .larr{transform:translateX(4px);opacity:.8}
+.bot-orn{margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeUp .8s 1s ease both}
+.orn2{display:flex;align-items:center;gap:8px;width:120px}
+.orn2-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3))}
+.orn2-line.r{background:linear-gradient(90deg,rgba(201,168,76,.3),transparent)}
+.orn2-d{width:4px;height:4px;background:rgba(201,168,76,.4);transform:rotate(45deg)}
+.foot{font-size:8.5px;color:#2A2520;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.foot span{color:rgba(201,168,76,.3)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:400px){.wrap{padding:50px 14px 60px}.name{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="noise"></div></div>
+<div class="wrap">
+
+  <div class="orn">
+    <div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line r"></div>
+  </div>
+
+  <div class="mono-wrap">
+    <div class="mono"><span class="mono-text">GG</span><div class="live"></div></div>
+  </div>
+
+  <h1 class="name">GAZUL GAFOOR</h1>
+  <div class="name-under"></div>
+  <p class="title">Business Operations · AI Automation · Growth Strategy</p>
+
+  <div class="stats">
+    <div class="stat"><div class="sn">2×</div><div class="sl">Revenue<br>Growth</div></div>
+    <div class="stat"><div class="sn">56→47</div><div class="sl">Food Cost<br>% Slashed</div></div>
+    <div class="stat"><div class="sn">6+</div><div class="sl">Years<br>Exp</div></div>
+    <div class="stat"><div class="sn">4</div><div class="sl">Countries<br>Operated</div></div>
+  </div>
+
+  <p class="stitle" style="animation:fadeUp .8s .28s ease both">Expertise</p>
+  <div class="exp">
+    <div class="exp-tags">
+      <span class="etag active">AI Automation</span>
+      <span class="etag active">WhatsApp API</span>
+      <span class="etag active">App Creation</span>
+      <span class="etag active">Website & HTML</span>
+      <span class="etag">Digital Marketing</span>
+      <span class="etag">SEO & Geo-Targeting</span>
+      <span class="etag">Business Turnaround</span>
+      <span class="etag">Operations Management</span>
+      <span class="etag">Cost Optimization</span>
+      <span class="etag">Delivery Platform Growth</span>
+      <span class="etag">Food Safety · PIC Advanced</span>
+    </div>
+  </div>
+
+  <p class="stitle" style="margin-top:28px;animation:fadeUp .8s .32s ease both">Services</p>
+  <div class="svcs">
+    <div class="svc"><div class="snum">01</div><div class="sbody"><div class="sh">WhatsApp API — Marketing & Bulk Orders</div><div class="sd">Official Meta WhatsApp Business API for <strong>marketing campaigns, bulk order messaging</strong> and customer communication. <strong>100% secure</strong> — direct Meta integration, zero risk of being blocked.</div><span class="smark">Meta Official API</span></div></div>
+    <div class="svc"><div class="snum">02</div><div class="sbody"><div class="sh">AI Voice Assistant</div><div class="sd">Custom AI-powered voice assistants that handle <strong>customer calls, order taking, FAQs and support</strong> automatically — 24/7, without a human agent.</div><span class="smark">Fully Automated</span></div></div>
+    <div class="svc"><div class="snum">03</div><div class="sbody"><div class="sh">AI-Controlled Full Marketing Automation</div><div class="sd">Intelligent system covering <strong>upselling, CRM, customer behaviour analysis, delivery tracking</strong> and late order triggers — running entirely without manual input.</div><span class="smark">Zero Manual Work</span></div></div>
+    <div class="svc"><div class="snum">04</div><div class="sbody"><div class="sh">Accounts, Data & Competitor Analysis</div><div class="sd">Deep financial reporting, live dashboards, P&L monitoring and <strong>competitor market analysis</strong> — complete clarity on where you stand and where to move next.</div><span class="smark">Data Intelligence</span></div></div>
+    <div class="svc"><div class="snum">05</div><div class="sbody"><div class="sh">Marketing Strategy · SEO · Geo-Targeting</div><div class="sd">Search engine optimisation, geo-targeted campaigns and structured marketing strategies to bring <strong>customers directly to you</strong>.</div><span class="smark">Marketing Certified</span></div></div>
+    <div class="svc"><div class="snum">06</div><div class="sbody"><div class="sh">Staff Management System</div><div class="sd">Design and build <strong>digital staff management systems</strong> — scheduling, performance tracking, task assignment and accountability tools tailored to your team.</div><span class="smark">Operations</span></div></div>
+    <div class="svc"><div class="snum">07</div><div class="sbody"><div class="sh">Infinite Business — Single Dashboard Control</div><div class="sd">Coordinate <strong>unlimited businesses in one live dashboard</strong> with real-time alerts, worst-case scenario triggers and full account visibility. Run 100 locations — alone.</div><span class="smark">Multi-Business Command</span></div></div>
+  </div>
+
+  <p class="stitle" style="margin-top:32px;animation:fadeUp .8s .4s ease both">Ventures</p>
+  <div class="vents" style="margin-bottom:4px">
+    <div class="vent"><div class="vn">I</div><div class="vtext"><div class="vname">LUSSO Broasted Chicken — Al Amarat, Muscat</div><div class="vdesc">Premium international broasted chicken restaurant · Owner & Manager · Muscat, Oman</div></div><span class="vtag">Owner</span></div>
+    <div class="vent"><div class="vn">II</div><div class="vtext"><div class="vname">Day Mart Hypermarket</div><div class="vdesc">Working across 15 branches · Multiple departments & sections · Kerala, India</div></div><span class="vtag">15 Branches</span></div>
+    <div class="vent"><div class="vn">III</div><div class="vtext"><div class="vname">Restaurant Operations — Hail, Saudi Arabia</div><div class="vdesc">Managing 2 restaurant handheld operations · Hail Region, Kingdom of Saudi Arabia</div></div><span class="vtag">KSA</span></div>
+    <div class="vent"><div class="vn">IV</div><div class="vtext"><div class="vname">Southside Resource Management LLP</div><div class="vdesc">Own startup · Waste management · 30+ field team · Government project delivery · Kerala, India</div></div><span class="vtag">Founder</span></div>
+    <div class="vent"><div class="vn">V</div><div class="vtext"><div class="vname">Veegee Store — Kuttiyadi, Kerala</div><div class="vdesc">Wholesale & retail stationery shop · Kuttiyadi, Kerala, India</div></div><span class="vtag">Retail</span></div>
+  </div>
+
+  <p class="stitle" style="margin-top:32px;animation:fadeUp .8s .46s ease both">Connect</p>
+  <div class="links">
+    <a class="lcard" href="https://wa.me/918086007997" target="_blank">
+      <div class="lico">💬</div>
+      <div class="ltxt"><div class="lt">WhatsApp</div><div class="ls">+91 8086 007997 · Direct message</div></div>
+      <div class="larr">›</div>
+    </a>
+    <a class="lcard" href="mailto:gasulgachuu@gmail.com">
+      <div class="lico">✉️</div>
+      <div class="ltxt"><div class="lt">Email</div><div class="ls">gasulgachuu@gmail.com</div></div>
+      <div class="larr">›</div>
+    </a>
+    <a class="lcard" href="tel:+96891473215">
+      <div class="lico">📞</div>
+      <div class="ltxt"><div class="lt">Call — Oman</div><div class="ls">+968 9147 3215 · tap to call</div></div>
+      <div class="larr">›</div>
+    </a>
+    <a class="lcard" href="https://linktr.ee/gasulgachuu" target="_blank">
+      <div class="lico">🔗</div>
+      <div class="ltxt"><div class="lt">All My Links</div><div class="ls">linktr.ee/gasulgachuu · Instagram & more</div></div>
+      <div class="larr">›</div>
+    </a>
+  </div>
+
+  <div class="bot-orn">
+    <div class="orn2">
+      <div class="orn2-line"></div><div class="orn2-d"></div><div class="orn2-line r"></div>
+    </div>
+    <div class="foot"><span>Gazul Gafoor</span> · Available across GCC & Remote · 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
